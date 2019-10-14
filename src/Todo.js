@@ -11,6 +11,7 @@ class Todo extends Component {
     };
 
     this.onHandleSubmit = this.onHandleSubmit.bind(this);
+    this.onUpdateHandle = this.onUpdateHandle.bind(this);
   }
 
   onHandleSubmit(event) {
@@ -34,10 +35,10 @@ class Todo extends Component {
 
   onHandleDelete(id) {
     const isNotId = item => item.id !== id;
-    const updateList = this.state.mockData.filter(isNotId);
+    const updateItem = this.state.mockData.filter(isNotId);
 
     this.setState({
-      mockData: updateList
+      mockData: updateItem
     });
   }
 
@@ -49,21 +50,37 @@ class Todo extends Component {
     });
   }
 
+  onUpdateHandle(event) {
+    event.preventDefault();
+
+    this.setState({
+      mockData: this.state.mockData.map(item => {
+        if (item.id === this.state.id) {
+          item['title'] = event.target.updateItem.value;
+          return item;
+        }
+        return item;
+      })
+    });
+  }
+
   renderEditForm() {
     if (this.state.edit === true) {
       return (
-        <form onSubmit={this.onHandleUpdate} className="form-update">
+        <form onSubmit={this.onUpdateHandle}>
           <input
             type="text"
-            name="inputUpdatText"
-            placeholder="Insert Update value"
+            name="updateItem"
             defaultValue={this.state.title}
           />
-          <button type="submit">Update</button>
+          <button typ="submit" className="btn-update">
+            Update
+          </button>
         </form>
       );
     }
   }
+
   render() {
     return (
       <div>
@@ -82,7 +99,7 @@ class Todo extends Component {
               {item.title}
               <button
                 type="button"
-                onClick={() => this.onHandleEdit(item.it, item.title)}
+                onClick={() => this.onHandleEdit(item.id, item.title)}
               >
                 Edit
               </button>
