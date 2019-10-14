@@ -32,6 +32,15 @@ class Todo extends Component {
     event.target.inputText.focus();
   }
 
+  onHandleDelete(id) {
+    const isNotId = item => item.id !== id;
+    const updateList = this.state.mockData.filter(isNotId);
+
+    this.setState({
+      mockData: updateList
+    });
+  }
+
   render() {
     console.log(this.state.mockData);
     return (
@@ -49,7 +58,12 @@ class Todo extends Component {
             <li key={item.id}>
               {item.title}
               <button type="button">Edit</button>
-              <button type="button">Delete</button>
+              <button
+                type="button"
+                onClick={() => this.onHandleDelete(item.id)}
+              >
+                Delete
+              </button>
               <button type="button">Complete</button>
             </li>
           ))}
