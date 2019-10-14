@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import TodoList from './TodoList';
+import TodoForm from './TodoForm';
 
 class Todo extends Component {
   constructor(props) {
@@ -13,6 +15,8 @@ class Todo extends Component {
     this.onHandleSubmit = this.onHandleSubmit.bind(this);
     this.onUpdateHandle = this.onUpdateHandle.bind(this);
     this.onCompleteHandle = this.onCompleteHandle.bind(this);
+    this.onHandleDelete = this.onHandleDelete.bind(this);
+    this.onHandleEdit = this.onHandleEdit.bind(this);
   }
 
   onHandleSubmit(event) {
@@ -99,42 +103,19 @@ class Todo extends Component {
   }
 
   render() {
+    const { mockData } = this.state;
     return (
       <div>
         {this.renderEditForm()}
-        <form onSubmit={this.onHandleSubmit} className="form-handle">
-          <input
-            type="text"
-            name="inputText"
-            placeholder="Insert Inpute value"
-          />
-          <button type="submit">Add Item</button>
-        </form>
-        <ul>
-          {this.state.mockData.map(item => (
-            <li key={item.id} className={item.done ? 'done' : 'hidden'}>
-              {item.title}
-              <button
-                type="button"
-                onClick={() => this.onHandleEdit(item.id, item.title)}
-              >
-                Edit
-              </button>
-              <button
-                type="button"
-                onClick={() => this.onHandleDelete(item.id)}
-              >
-                Delete
-              </button>
-              <button
-                type="button"
-                onClick={() => this.onCompleteHandle(item.id)}
-              >
-                Complete
-              </button>
-            </li>
-          ))}
-        </ul>
+
+        <TodoForm onSubmit={this.onHandleSubmit} />
+
+        <TodoList
+          entries={mockData}
+          onHandleDelete={this.onHandleDelete}
+          onHandleEdit={this.onHandleEdit}
+          onCompleteHandle={this.onCompleteHandle}
+        />
       </div>
     );
   }
