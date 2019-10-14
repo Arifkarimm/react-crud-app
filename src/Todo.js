@@ -27,15 +27,34 @@ class Todo extends Component {
     this.setState({
       mockData: updateMockData
     });
+
+    event.target.inputText.value = '';
+    event.target.inputText.focus();
   }
 
   render() {
     console.log(this.state.mockData);
     return (
-      <form onSubmit={this.onHandleSubmit} className="form-handle">
-        <input type="text" name="inputText" placeholder="Insert Inpute value" />
-        <button type="submit">Add Item</button>
-      </form>
+      <div>
+        <form onSubmit={this.onHandleSubmit} className="form-handle">
+          <input
+            type="text"
+            name="inputText"
+            placeholder="Insert Inpute value"
+          />
+          <button type="submit">Add Item</button>
+        </form>
+        <ul>
+          {this.state.mockData.map(item => (
+            <li key={item.id}>
+              {item.title}
+              <button type="button">Edit</button>
+              <button type="button">Delete</button>
+              <button type="button">Complete</button>
+            </li>
+          ))}
+        </ul>
+      </div>
     );
   }
 }
